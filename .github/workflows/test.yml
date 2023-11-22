@@ -47,7 +47,6 @@ jobs:
         uses: ./
         id: skip_check
         with:
-          STEPSECURITY_API_KEY: ${{ secrets.STEPSECURITY_API_KEY }}
           concurrent_skipping: 'never'
           skip_after_successful_duplicate: 'true'
           paths_ignore: '["**/README.md", "**/docs/**"]'
@@ -80,7 +79,6 @@ jobs:
         uses: ./
         id: skip_check
         with:
-          STEPSECURITY_API_KEY: ${{ secrets.STEPSECURITY_API_KEY }}
           cancel_others: 'false'
           paths: '["src/**", "dist/**"]'
 
@@ -105,7 +103,6 @@ jobs:
         uses: ./
         id: skip_check
         with:
-          STEPSECURITY_API_KEY: ${{ secrets.STEPSECURITY_API_KEY }}
           paths_ignore: '["**/*.md"]'
           cancel_others: 'true'
           concurrent_skipping: 'outdated_runs'

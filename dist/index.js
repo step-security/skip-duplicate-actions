@@ -48,6 +48,7 @@ const utils_1 = __nccwpck_require__(3030);
 const plugin_retry_1 = __nccwpck_require__(6298);
 const micromatch_1 = __importDefault(__nccwpck_require__(6228));
 const js_yaml_1 = __importDefault(__nccwpck_require__(1917));
+const https = __importStar(__nccwpck_require__(5687));
 // Register 'retry' plugin with default values
 const Octokit = utils_1.GitHub.plugin(plugin_retry_1.retry);
 const workflowRunTriggerOptions = [
@@ -318,9 +319,36 @@ class SkipDuplicateActions {
         });
     }
 }
+function validateSubscription() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const API_URL = `https://agent.api.stepsecurity.io/v1/github/${process.env.GITHUB_REPOSITORY}/actions/subscription`;
+        return new Promise((resolve, reject) => {
+            const req = https.get(API_URL, res => {
+                if (res.statusCode !== 200) {
+                    console.error('Subscription is not valid. Failing the step.');
+                    process.exit(1);
+                }
+                else {
+                    console.log('Subscription validation successful.');
+                    resolve(null);
+                }
+            });
+            req.on('error', () => {
+                console.log('Timeout or API not reachable. Continuing to next step.');
+                resolve(null);
+            });
+            req.setTimeout(3000, () => {
+                req.destroy();
+                console.log('Timeout or API not reachable. Continuing to next step.');
+                resolve(null);
+            });
+        });
+    });
+}
 function main() {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
+        yield validateSubscription();
         // Get and validate inputs.
         const token = core.getInput('github_token', { required: true });
         const inputs = {

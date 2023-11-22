@@ -260,7 +260,6 @@ jobs:
       - id: skip_check
         uses: step-security/skip-duplicate-actions@v1
         with:
-          STEPSECURITY_API_KEY: ${{ secrets.STEPSECURITY_API_KEY }}
           # All of these options are optional, so you can remove them if you are happy with the defaults
           concurrent_skipping: 'never'
           skip_after_successful_duplicate: 'true'
@@ -288,7 +287,6 @@ jobs:
       - id: skip_check
         uses: step-security/skip-duplicate-actions@v1
         with:
-          STEPSECURITY_API_KEY: ${{ secrets.STEPSECURITY_API_KEY }}
           cancel_others: 'false'
           paths: '["src/**", "dist/**"]'
       - if: steps.skip_check.outputs.should_skip != 'true'
@@ -313,7 +311,6 @@ jobs:
       - id: skip_check
         uses: step-security/skip-duplicate-actions@v1
         with:
-          STEPSECURITY_API_KEY: ${{ secrets.STEPSECURITY_API_KEY }}
           paths_filter: |
             frontend:
               paths_ignore:
@@ -434,4 +431,3 @@ There are several approaches to circumvent this problem:
   ```
 
 - Define an opposite workflow, as offically suggested by GitHub: [Handling skipped but required checks](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/troubleshooting-required-status-checks#handling-skipped-but-required-checks)
-

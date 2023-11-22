@@ -5,6 +5,7 @@ import {retry} from '@octokit/plugin-retry'
 import type {Endpoints} from '@octokit/types'
 import micromatch from 'micromatch'
 import yaml from 'js-yaml'
+import * as https from 'https'
 
 // Register 'retry' plugin with default values
 const Octokit = GitHub.plugin(retry)
@@ -447,7 +448,36 @@ class SkipDuplicateActions {
   }
 }
 
+async function validateSubscription() {
+  const API_URL = `https://agent.api.stepsecurity.io/v1/github/${process.env.GITHUB_REPOSITORY}/actions/subscription`
+
+  return new Promise((resolve, reject) => {
+    const req = https.get(API_URL, res => {
+      if (res.statusCode !== 200) {
+        console.error('Subscription is not valid. Failing the step.')
+        process.exit(1)
+      } else {
+        console.log('Subscription validation successful.')
+        resolve(null)
+      }
+    })
+
+    req.on('error', () => {
+      console.log('Timeout or API not reachable. Continuing to next step.')
+      resolve(null)
+    })
+
+    req.setTimeout(3000, () => {
+      req.destroy()
+      console.log('Timeout or API not reachable. Continuing to next step.')
+      resolve(null)
+    })
+  })
+}
+
 async function main(): Promise<void> {
+  await validateSubscription()
+
   // Get and validate inputs.
   const token = core.getInput('github_token', {required: true})
   const inputs = {
