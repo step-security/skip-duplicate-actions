@@ -1,3 +1,4 @@
+import axios, {isAxiosError} from 'axios'
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 import {getOctokitOptions, GitHub} from '@actions/github/lib/utils'
@@ -5,7 +6,6 @@ import {retry} from '@octokit/plugin-retry'
 import type {Endpoints} from '@octokit/types'
 import micromatch from 'micromatch'
 import yaml from 'js-yaml'
-import * as https from 'https'
 
 // Register 'retry' plugin with default values
 const Octokit = GitHub.plugin(retry)
@@ -448,31 +448,21 @@ class SkipDuplicateActions {
   }
 }
 
-async function validateSubscription() {
+async function validateSubscription(): Promise<void> {
   const API_URL = `https://agent.api.stepsecurity.io/v1/github/${process.env.GITHUB_REPOSITORY}/actions/subscription`
 
-  return new Promise((resolve, reject) => {
-    const req = https.get(API_URL, res => {
-      if (res.statusCode !== 200) {
-        console.error('Subscription is not valid. Failing the step.')
-        process.exit(1)
-      } else {
-        console.log('Subscription validation successful.')
-        resolve(null)
-      }
-    })
-
-    req.on('error', () => {
-      console.log('Timeout or API not reachable. Continuing to next step.')
-      resolve(null)
-    })
-
-    req.setTimeout(3000, () => {
-      req.destroy()
-      console.log('Timeout or API not reachable. Continuing to next step.')
-      resolve(null)
-    })
-  })
+  try {
+    await axios.get(API_URL, {timeout: 3000})
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      core.error(
+        'Subscription is not valid. Reach out to support@stepsecurity.io'
+      )
+      process.exit(1)
+    } else {
+      core.info('Timeout or API not reachable. Continuing to next step.')
+    }
+  }
 }
 
 async function main(): Promise<void> {
