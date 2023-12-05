@@ -18,7 +18,7 @@
     "@actions/github": "^6.0.0",
     "axios": "^1.6.2",
     "@octokit/plugin-retry": "^4.1.6",
-    "@octokit/types": "^6.41.0",
+    "@octokit/types": "^12.4.0",
     "@types/js-yaml": "^4.0.9",
     "@types/micromatch": "^4.0.5",
     "@types/node": "^20.9.0",
