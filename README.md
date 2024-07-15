@@ -258,7 +258,7 @@ jobs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
-        uses: step-security/skip-duplicate-actions@v1
+        uses: step-security/skip-duplicate-actions@v5
         with:
           # All of these options are optional, so you can remove them if you are happy with the defaults
           concurrent_skipping: 'never'
@@ -285,7 +285,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: skip_check
-        uses: step-security/skip-duplicate-actions@v1
+        uses: step-security/skip-duplicate-actions@v5
         with:
           cancel_others: 'false'
           paths: '["src/**", "dist/**"]'
@@ -309,7 +309,7 @@ jobs:
       paths_result: ${{ steps.skip_check.outputs.paths_result }}
     steps:
       - id: skip_check
-        uses: step-security/skip-duplicate-actions@v1
+        uses: step-security/skip-duplicate-actions@v5
         with:
           paths_filter: |
             frontend:
