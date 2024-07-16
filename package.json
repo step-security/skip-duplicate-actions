@@ -20,7 +20,7 @@
     "@octokit/plugin-retry": "^4.1.6",
     "@octokit/types": "^6.41.0",
     "@types/js-yaml": "^4.0.9",
-    "@types/micromatch": "^4.0.5",
+    "@types/micromatch": "^4.0.9",
     "@types/node": "^20.9.0",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
@@ -29,7 +29,7 @@
     "eslint-plugin-github": "^4.10.1",
     "eslint-plugin-prettier": "^5.0.1",
     "js-yaml": "^4.1.0",
-    "micromatch": "^4.0.5",
+    "micromatch": "^4.0.7",
     "prettier": "^3.1.0",
     "typescript": "^5.2.2"
   }
