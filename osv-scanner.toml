@@ -1,0 +1,7 @@
+[[IgnoredVulns]]
+id = "GHSA-8hc4-vh64-cxmj"
+reason = "Axios URL is not user-controlled"
+
+[[IgnoredVulns]]
+id = "GHSA-952p-6rrq-rcjv"
+reason = "It is a test dependency"
