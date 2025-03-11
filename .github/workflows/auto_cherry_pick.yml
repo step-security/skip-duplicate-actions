@@ -357,7 +357,6 @@ jobs:
           git fetch origin
           git checkout "${{ env.BRANCH_NAME }}"
           git pull origin "${{ env.BRANCH_NAME }}" --ff-only
-          
           eval "${{ inputs.script }}" || echo "No build script found or failed, skipping."
           git add .
           
@@ -381,16 +380,23 @@ jobs:
 
               CONTENT=$(base64 -w 0 "$file")
 
-              SHA=$(gh api "repos/${{ github.repository }}/contents/$file?ref=${{ env.BRANCH_NAME }}" --jq .sha)
+              SHA=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+                "https://api.github.com/repos/${{ github.repository }}/contents/$file?ref=${{ env.BRANCH_NAME }}" | jq -r .sha)
               if [ "$SHA" == "null" ]; then SHA=""; fi
 
-              gh api --method PUT "repos/${{ github.repository }}/contents/$file" \
+              # Prepare commit payload
+              JSON_PAYLOAD=$(mktemp)
+              echo "{
+                \"message\": \"fix: apply code build script\",
+                \"content\": \"$CONTENT\",
+                \"branch\": \"${{ env.BRANCH_NAME }}\",
+                \"sha\": \"$SHA\"
+              }" > "$JSON_PAYLOAD"
+
+              curl -s -X PUT -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
                 -H "Accept: application/vnd.github.v3+json" \
-                -F message="fix: apply audit fixes" \
-                -F content="$CONTENT" \
-                -F branch="${{ env.BRANCH_NAME }}" \
-                -F sha="$SHA" \
-                --silent
+                --data-binary @"$JSON_PAYLOAD" \
+                "https://api.github.com/repos/${{ github.repository }}/contents/$file"
 
               echo "✅ File committed: $file"
             done
