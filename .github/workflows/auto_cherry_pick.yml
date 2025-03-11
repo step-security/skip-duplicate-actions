@@ -7,6 +7,11 @@ on:
         description: "Base branch to create the PR against"
         required: true
         default: "main"
+      script:
+        description: "Specify the npm/yarn script to run if available"
+        required: false
+        default: "npm run all"
+      
 
 permissions:
   contents: write
@@ -21,3 +26,4 @@ jobs:
       original-owner: "fkirc"
       repo-name: "skip-duplicate-actions"
       base_branch: ${{ inputs.base_branch }}
+      script: ${{ inputs.script }}
