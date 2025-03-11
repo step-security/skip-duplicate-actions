@@ -354,6 +354,10 @@ jobs:
       - name: Run Specified Build Script and Commit Changes via gh CLI
         if: env.action_type == 'node' && env.CHANGES == 'true'
         run: |
+          git fetch origin
+          git checkout "${{ env.BRANCH_NAME }}"
+          git pull origin "${{ env.BRANCH_NAME }}" --ff-only
+          
           eval "${{ inputs.script }}" || echo "No build script found or failed, skipping."
           git add .
           
