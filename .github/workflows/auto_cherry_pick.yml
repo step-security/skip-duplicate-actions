@@ -358,7 +358,7 @@ jobs:
           git add .
           
           FILES_CHANGED=$(git status --porcelain | awk '{print $2}' | grep -Ev 'temp_file.txt|temp_patch.diff|temp_patch.txt|.*\.rej' || true)
-          eecho "Processing file: $FILES_CHANGED"
+          echo "Processing file: $FILES_CHANGED"
           
           if [ -z "$FILES_CHANGED" ]; then
             echo "No changes detected."
