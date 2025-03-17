@@ -297,6 +297,10 @@ jobs:
 
 ### Example 3: Skip using `paths_filter`
 
+> [!WARNING]  
+> If the paths_filter option is not working correctly, then you could copy the “example 1" multiple times according to your needs (see <https://github.com/fkirc/skip-duplicate-actions/issues/326> for details).
+
+
 The `paths_filter` option can be used if you have multiple jobs in a workflow and want to skip them based on different [`paths_ignore`](#paths_ignore) / [`paths`](#paths) patterns. When defining such filters, the action returns corresponding information in the [`paths_result`](#paths_result) output.
 For example in a monorepo, you might want to run jobs related to the "frontend" only if some files in the corresponding "frontend/" folder have changed and the same for "backend". This can be achieved with the following configuration:
 
@@ -328,7 +332,7 @@ jobs:
     # If 'skip-duplicate-actions' terminates before the paths checks are performed (for example, when a successful duplicate run has
     # been found) 'paths_result' outputs an empty object ('{}'). This can be easily intercepted in the if condition of a job
     # by checking the result of the "global" 'should_skip' output first.
-    if: needs.pre_job.outputs.should_skip != 'true' || !fromJSON(needs.pre_job.outputs.paths_result).frontend.should_skip
+    if: needs.pre_job.outputs.should_skip != 'true' && !fromJSON(needs.pre_job.outputs.paths_result).frontend.should_skip
     # ...
 
   backend:
