@@ -143,7 +143,6 @@ class SkipDuplicateActions {
                 }
                 // Only cancel runs from same branch and repo (ignore pull request runs from remote repositories)
                 // and not with same tree hash.
-                // See https://github.com/fkirc/skip-duplicate-actions/pull/177.
                 return (run.treeHash !== this.context.currentRun.treeHash &&
                     run.branch === this.context.currentRun.branch &&
                     run.repo === this.context.currentRun.repo);

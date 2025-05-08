@@ -298,8 +298,7 @@ jobs:
 ### Example 3: Skip using `paths_filter`
 
 > [!WARNING]  
-> If the paths_filter option is not working correctly, then you could copy the “example 1" multiple times according to your needs (see <https://github.com/fkirc/skip-duplicate-actions/issues/326> for details).
-
+> If the paths_filter option is not working correctly, then you could copy the “example 1" multiple times according to your needs.
 
 The `paths_filter` option can be used if you have multiple jobs in a workflow and want to skip them based on different [`paths_ignore`](#paths_ignore) / [`paths`](#paths) patterns. When defining such filters, the action returns corresponding information in the [`paths_result`](#paths_result) output.
 For example in a monorepo, you might want to run jobs related to the "frontend" only if some files in the corresponding "frontend/" folder have changed and the same for "backend". This can be achieved with the following configuration:
