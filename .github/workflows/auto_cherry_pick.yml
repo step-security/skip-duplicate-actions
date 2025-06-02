@@ -20,8 +20,8 @@ permissions:
   issues: write
 
 jobs:
-  audit-fix:
-    uses: step-security/reusable-workflows/.github/workflows/auto_cherry_pick.yaml@fix_UpStream-Changes-Cherry-Pick
+  cherry-pick:
+    uses: step-security/reusable-workflows/.github/workflows/auto_cherry_pick.yaml@v1
     with:
       original-owner: "fkirc"
       repo-name: "skip-duplicate-actions"
