@@ -47,5 +47,5 @@ outputs:
   paths_result:
     description: 'Returns information for each configured filter in paths_filter'
 runs:
-  using: 'node20'
+  using: 'node24'
   main: 'dist/index.js'
