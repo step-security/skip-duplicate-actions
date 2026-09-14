@@ -1,0 +1,18 @@
+{
+   "schema_version": "1",
+   "onboarding_type": "reimplemented",
+   "archived": false,
+   "maintained_action_name": "step-security/skip-duplicate-actions",
+   "upstream_full_repo_name": "fkirc/skip-duplicate-actions",
+   "action_type": "node",
+   "last_release": {
+     "tag_name": "v5.3.4",
+     "created_at": "2026-05-16T17:31:42Z",
+     "published_at": "2026-05-18T16:30:53Z"
+   },
+   "sync": {
+     "ignore_presets": [
+       "defaults_v1"
+     ]
+   }
+ }
